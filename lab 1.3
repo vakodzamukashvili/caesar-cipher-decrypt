@@ -1,0 +1,24 @@
+import base64
+import itertools
+
+def xor_decrypt(ciphertext_b64, key):
+    # Decode base64
+    ciphertext = base64.b64decode(ciphertext_b64)
+    
+    # Repeat the key as needed
+    key_repeated = itertools.cycle(key.encode())
+
+    # XOR decryption
+    decrypted_bytes = bytes([c ^ next(key_repeated) for c in ciphertext])
+
+    return decrypted_bytes.decode(errors='ignore')  # Ignore decoding errors if any
+
+# Given Base64 Ciphertext
+ciphertext_b64 = "Jw0KBlIMAEUXHRdFKyoxVRENEgkPEBwCFkQ="
+
+# Passphrase from Step 2
+passphrase = "secure"
+
+# Perform XOR decryption
+decrypted_message = xor_decrypt(ciphertext_b64, passphrase)
+decrypted_message
